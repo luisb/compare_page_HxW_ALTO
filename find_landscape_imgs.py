@@ -11,14 +11,16 @@ from StringIO import StringIO
 
 landscape_file_count = 0
 
+# loop through the arguments (i.e., file paths)
 for File in sys.argv:
+	# the first argument is always the script name; skip it
 	if File == __file__:
 		continue
-	
-	tree = ET.parse(File)
-	
+		
+	# open current file
 	with open(File,'r') as f:
-		# read data form file into "data"
+		
+		# read data form file and store into "data"
 		data = f.read()
 
 		# parse the file in memory
@@ -30,11 +32,11 @@ for File in sys.argv:
 			width  = page.attrib['WIDTH']
 			
 			# compare height and width; if width > height, landscape detected. print a message to that effect
-			if height > width:
+			if int(height) > int(width):
 				continue  
 			else: 
 				landscape_file_count = landscape_file_count + 1
-				print File + ": " + height + " x " + width + "; landscape detected."
+				print File + ": " + height + " < " + width + "; landscape detected."
 
 print "Analysis complete. " + str(landscape_file_count) + (" file " if landscape_file_count == 1 else " files ") + "found in landscape orientation"
 
